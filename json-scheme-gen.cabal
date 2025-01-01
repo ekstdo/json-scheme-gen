@@ -1,0 +1,50 @@
+cabal-version:      3.6
+name:               json-scheme-gen
+version:            0.1.0.0
+
+-- A short (one-line) description of the package.
+-- synopsis:
+
+-- A longer description of the package.
+-- description:
+
+-- A URL where users can report bugs.
+-- bug-reports:
+
+-- The license under which the package is released.
+-- license:
+author:             ekstdo
+maintainer:         minhala2003@mailo.com
+
+-- A copyright notice.
+-- copyright:
+-- category:
+extra-source-files: CHANGELOG.md
+
+
+library json-scheme-gen-lib
+    exposed-modules: JsonScheme
+    hs-source-dirs: lib
+    build-depends: base, aeson >= 2.0, these >= 1.0, containers >= 0.6
+    default-language: Haskell2010
+
+executable json-scheme-gen
+    main-is:          Main.hs
+
+    -- Modules included in this executable, other than Main.
+    -- other-modules:
+
+    -- LANGUAGE extensions used by modules in this package.
+    -- other-extensions:
+    build-depends:    base, json-scheme-gen:json-scheme-gen-lib, aeson >= 2.0, containers >= 0.6, optparse-applicative >= 0.18, bytestring >= 0.12
+
+    hs-source-dirs:   app
+    default-language: Haskell2010
+
+
+test-suite tests
+    type: exitcode-stdio-1.0
+    main-is: AppTest.hs
+    hs-source-dirs:   tests
+    build-depends: base, HUnit >=1.6, json-scheme-gen:json-scheme-gen-lib, aeson >= 2.0, these >= 1.0, containers >= 0.6
+    default-language: Haskell2010
