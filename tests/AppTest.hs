@@ -12,27 +12,6 @@ import Test.HUnit
 import qualified System.Exit as Exit
 import JsonScheme
 
-subsetTests = TestList [ 
-         TestCase $ assertEqual "simple Primitive - Primitive Scheme comparison GT"
-            (subset SNull SNumber)
-            GT
-         , TestCase $ assertEqual "simple Primitive - Primitive Scheme comparison EQ"
-            (subset SNull SNull)
-            EQ
-         , TestCase $ assertEqual "simple Primitive - OR Scheme comparison"
-            (subset SNull (SOr (Set.fromList [SBool, SNull])))
-            LT
-         , TestCase $ assertEqual "simple OR - Or Scheme comparison LT"
-            (subset (SOr (Set.fromList [SBool, SNull])) (SOr (Set.fromList [SBool, SNull, SNumber])))
-            LT
-         , TestCase $ assertEqual "simple OR - Or Scheme comparison EQ"
-            (subset (SOr (Set.fromList [SBool, SNull, SNumber])) (SOr (Set.fromList [SBool, SNull, SNumber])))
-            EQ
-         , TestCase $ assertEqual "simple Or - Or Scheme comparison GT"
-            (subset (SOr (Set.fromList [SBool, SNull, SNumber])) (SOr (Set.fromList [SBool, SNull])))
-            GT
-    ]
-
 tests = TestList [TestCase $ assertEqual "simple comparison" 
             (fromJSON <$> (decode "{\"a\": 1, \"b\": [2, null, true], \"c\": [{\"d\": 1, \"e\": true}, {\"f\": false}, {\"f\": null}]}" :: Maybe JSONTypes.Value))
             -- {"a": number, "b": [null | boolean | number], "c": [{"d": number, "e": boolean} | {"f": null | boolean}]}

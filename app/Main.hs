@@ -1,16 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main where
 import JsonScheme
+
+import System.IO
+
 import Data.Aeson.Decoding (decode)
 import qualified Data.Aeson.Types as JSONTypes
-import Data.List
-import qualified Data.Aeson.KeyMap as KeyMap
-
-import qualified Data.Set as Set
-import Options.Applicative
-import qualified System.Exit as Exit
 import qualified Data.ByteString.Lazy as ByteString
-import System.IO
+import Options.Applicative
 
 data Input
   = FileInput FilePath

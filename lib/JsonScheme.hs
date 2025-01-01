@@ -41,48 +41,6 @@ sorMatch = foldr (\x accum -> case x of
                                                                 Set.insert (foldr sor x matching) notMatching
     _ -> Set.insert x accum )
 
-
-
-
-
-
-
-
-
--- this is actually a partial order and NOT a total order
--- because only the subset and equal relation are required
--- only LT and EQ are actually defined
-
-allCmp EQ LT = LT
-allCmp GT _  = GT
-allCmp a  b  = if a == b then a else allCmp b a
-
-anyCmp EQ LT = EQ
-anyCmp GT b  = b
-anyCmp a  b  = if a == b then a else anyCmp b a
-
-subset SNull SNull = EQ
-subset SBool SBool = EQ
-subset SString SString = EQ
-subset SNumber SNumber = EQ
-subset (SArray s1) (SArray s2) = compare s1 s2
-subset (SObject s1) (SObject s2) = foldr allCmp EQ (KeyMap.alignWith (These.these (const GT) (const GT) subset) s1 s2)
-subset (SOr s1) (SOr s2) = if result == EQ then if length s1 == length s2 then EQ else LT else result
-    where result = foldr (\x accum -> -- for every element in s1
-            allCmp accum (s2 `hasSupersetOf` x)
-            ) EQ s1
-subset a (SOr s2) = if result == EQ then LT else result -- cannot be equal, as a isn't SOr
-    where result = s2 `hasSupersetOf` a
-subset a b = GT
-
-hasSupersetOf b a = foldr (\y accum' -> -- go through every element in b
-                let result = subset a y in 
-                    anyCmp result accum'
-            ) GT b
-
-combined :: Set.Set Scheme -> Set.Set Scheme -> Set.Set Scheme
-combined a b = Set.union (Set.filter (\x -> b `hasSupersetOf` x /= LT) a ) (Set.filter (\x -> b `hasSupersetOf` x == GT) a )
-
 fromJSON :: JSONTypes.Value -> Scheme
 fromJSON JSONTypes.Null = SNull
 fromJSON (JSONTypes.Bool _) = SBool
