@@ -42,7 +42,7 @@ For example
 
 returns
 
-```json
+```json-scheme
 {
     "a": number,
     "b": [
